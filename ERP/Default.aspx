@@ -33,14 +33,15 @@
             <asp:BoundField DataField="emp_designation" HeaderText="Designation" />
             <asp:TemplateField HeaderText="Edit">
                 <ItemTemplate>
-                    <asp:LinkButton ID="btnEdit" Text="Edit" runat="server" CausesValidation="false" RowIndex ='<%# Container.DisplayIndex %>'>
+                    <asp:HiddenField ID="hidemp_gid" runat="server" Value='<%#Eval("emp_gid") %>' />
+                    <asp:LinkButton ID="btnEdit" Text="Edit" runat="server" CausesValidation="false" RowIndex ='<%# Container.DisplayIndex %>' OnClick="btnEdit_Click">
                         <img style="border:none;" src="Images/edit_icon.gif" />
                     </asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Delete">
                     <ItemTemplate>
-                    <asp:LinkButton ID="btnEdit" Text="Delete" runat="server" CausesValidation="false" RowIndex ='<%# Container.DisplayIndex %>'>
+                    <asp:LinkButton ID="btnDelete" Text="Delete" runat="server" CausesValidation="false" RowIndex ='<%# Container.DisplayIndex %>' OnClick="btnDelete_Click">
                         <img style="border:none;" src="Images/icon_remove.png" />
                     </asp:LinkButton>
                 </ItemTemplate>

@@ -36,9 +36,18 @@ namespace ERP
 
             try
             {
-                msg = objEmployeeInfoBLL.SaveEmployeeInfo(objEmployeeInfo);
+                if(btnSave.Text == "Edit")
+                {
+                    objEmployeeInfo.EmpGid = Convert.ToInt32(this.hf_emp_gid.Value);
+                    msg = objEmployeeInfoBLL.EditEmployeeInfo(objEmployeeInfo);
+                }
+                else
+                {
+                    msg = objEmployeeInfoBLL.SaveEmployeeInfo(objEmployeeInfo);
+                }
                 this.Load_gvEmpInfo();
                 ClearForm();
+                
             }
             catch(Exception exp)
             {
@@ -46,6 +55,38 @@ namespace ERP
             }
             this.lblMsg.Text = msg;
 
+        }
+        protected void btnEdit_Click(object sender, EventArgs e)
+        {
+            this.btnSave.Text = "Edit";
+            LinkButton btnEdit = sender as LinkButton;
+            int rowIndex = Convert.ToInt32(btnEdit.Attributes["RowIndex"]);
+            GridViewRow gvRow = this.gvEmpInfo.Rows[rowIndex];
+            int emp_gid = Convert.ToInt32(((HiddenField)gvRow.FindControl("hidemp_gid")).Value);
+            this.txtEmpFullNm.Text = gvRow.Cells[0].Text;
+            this.txtEmpNickName.Text = gvRow.Cells[1].Text;
+            this.txtDesignation.Text = gvRow.Cells[2].Text;
+
+            this.hf_emp_gid.Value = emp_gid.ToString();
+        }
+        protected void btnDelete_Click(object sender,EventArgs e)
+        {
+            LinkButton btnDelete = sender as LinkButton;
+            int rowIndex = Convert.ToInt32(btnDelete.Attributes["RowIndex"]);
+            GridViewRow gvRow = this.gvEmpInfo.Rows[rowIndex];
+            int emp_gid = Convert.ToInt32(((HiddenField)gvRow.FindControl("hidemp_gid")).Value);
+            string msg = string.Empty;
+            try
+            {
+                EmployeeInfoBLL objEmployeeInfoBLL = new EmployeeInfoBLL();
+                msg = objEmployeeInfoBLL.RemoveEmployeeInfo(emp_gid);
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+            }
+            this.lblMsg.ForeColor = System.Drawing.Color.Red;
+            this.lblMsg.Text = msg;
         }
         private void ClearForm()
         {
